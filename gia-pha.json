@@ -1,7 +1,7 @@
 {
   "tenGiaPha": "GIA PHẢ HỌ PHAN",
   "moTa": "Một nhánh của dòng họ Phan, bắt đầu từ cụ Phan Hậu. Chạm vào một người để xem chi tiết.",
-  "ho": "Phan",
+  "ho": "PHAN",
   "nguoi": [
     {
       "id": "r0",
@@ -13,11 +13,11 @@
     {
       "id": "a1",
       "cha": "r0",
-      "ten": "Hậu",
+      "ten": "HẬU",
       "gioi": "nam",
       "vo": [
-        "Trần Thị Đỉ",
-        "Nguyễn Thị Hạnh"
+        "TRẦN THỊ ĐỈ",
+        "NGUYỄN THỊ HẠNH"
       ],
       "chi": 1,
       "ghiChu": "Người xa nhất còn biết trong nhánh này."
@@ -25,67 +25,67 @@
     {
       "id": "b1",
       "cha": "a1",
-      "ten": "Thị Ca",
+      "ten": "THỊ CA",
       "gioi": "nu",
       "chi": 0
     },
     {
       "id": "b2",
       "cha": "a1",
-      "ten": "Việt Hùng",
+      "ten": "VIỆT HÙNG",
       "gioi": "nam",
-      "vo": "Nguyễn Thị Niên",
+      "vo": "NGUYỄN THỊ NIÊN",
       "chi": 1
     },
     {
       "id": "c1",
       "cha": "b2",
-      "ten": "Thanh Tâm",
+      "ten": "THANH TÂM",
       "gioi": "nam",
-      "vo": "Nguyễn Thị Dũng",
+      "vo": "NGUYỄN THỊ DŨNG",
       "chi": 1
     },
     {
       "id": "c2",
       "cha": "b2",
-      "ten": "Thị Diễn",
+      "ten": "THỊ DIỄN",
       "gioi": "nu",
-      "chi": 1
+      "chi": 0
     },
     {
       "id": "c3",
       "cha": "b2",
-      "ten": "Tiến Dũng",
+      "ten": "TIẾN DŨNG",
       "gioi": "nam",
-      "vo": "Trần Thị Lợi",
+      "vo": "TRẦN THỊ LỢI",
       "chi": 1
     },
     {
       "id": "c4",
       "cha": "b2",
-      "ten": "Thị Việt",
+      "ten": "THỊ VIỆT",
       "gioi": "nu",
-      "chi": 1
+      "chi": 0
     },
     {
       "id": "c5",
       "cha": "b2",
-      "ten": "Thị Dạt",
+      "ten": "THỊ DẠT",
       "gioi": "nu",
-      "chong": "Võ Ngọc Hòa",
-      "chi": 1
+      "chong": "VÕ NGỌC HÒA",
+      "chi": 0
     },
     {
       "id": "c6",
       "cha": "b2",
-      "ten": "Tấn Đạt",
+      "ten": "TẤN ĐẠT",
       "gioi": "nam",
       "chi": 1
     },
     {
       "id": "d1",
       "cha": "c1",
-      "ten": "Thanh Trí",
+      "ten": "THANH TRÍ",
       "gioi": "nam",
       "vo": "PHẠM THỊ LINH",
       "song": true,
@@ -94,7 +94,7 @@
     {
       "id": "d2",
       "cha": "c1",
-      "ten": "Tuần Mạnh",
+      "ten": "TUẤN MẠNH",
       "gioi": "nam",
       "vo": "NGUYỄN THỊ TUYẾT SƯƠNG",
       "chi": 1
@@ -102,14 +102,14 @@
     {
       "id": "d3",
       "cha": "c1",
-      "ten": "Việt Cường",
+      "ten": "VIỆT CƯỜNG",
       "gioi": "nam",
       "chi": 1
     },
     {
       "id": "d4",
       "cha": "c1",
-      "ten": "Quốc Thịnh",
+      "ten": "QUỐC THỊNH",
       "gioi": "nam",
       "vo": "NGUYỄN THỊ DIỆU HIỀN",
       "chi": 1
@@ -117,23 +117,23 @@
     {
       "id": "d5",
       "cha": "c3",
-      "ten": "Tiến Bảo",
+      "ten": "TIẾN BẢO",
       "gioi": "nam",
       "chi": 1
     },
     {
       "id": "d6",
       "cha": "c3",
-      "ten": "Tiến Thành",
+      "ten": "TIẾN THÀNH",
       "gioi": "nam",
       "chi": 1
     },
     {
       "id": "d7",
       "cha": "c3",
-      "ten": "Thị Mỹ Vy",
+      "ten": "THỊ MỸ VY",
       "gioi": "nu",
-      "chi": 1
+      "chi": 0
     },
     {
       "id": "e1",
