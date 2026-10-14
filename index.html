@@ -57,14 +57,14 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 .canvas{position:absolute;left:0;top:0;transform-origin:0 0}
 svg{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
 svg path{fill:none;stroke:var(--line);stroke-width:1.6}
-.card{position:absolute;display:block;text-align:left;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c0);border-radius:8px;padding:6px 10px;cursor:pointer;box-shadow:var(--shadow);overflow:hidden}
+.card{position:absolute;display:flex;flex-direction:column;justify-content:center;text-align:center;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c0);border-radius:8px;padding:6px 10px;cursor:pointer;box-shadow:var(--shadow);overflow:hidden}
 .card.chi1{border-top-color:var(--c1)} .card.chi2{border-top-color:var(--c2)} .card.chi3{border-top-color:var(--c3)}
-.card .nm{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;font:600 14.5px/1.25 var(--serif);overflow:hidden;word-break:break-word}
+.card .nm{display:block;font:600 14.5px/1.3 var(--serif);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .card .yr{display:block;font:400 12px/1.4 var(--sans);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .card .yr b{color:var(--jade);font-weight:600}
 .card.me{outline:2px solid var(--jade);outline-offset:1px}
 .card.unk{border-style:dashed;border-top-style:dashed;background:transparent;box-shadow:none;color:var(--unk)}
-.card.unk .nm{font-style:italic;font-weight:500;white-space:normal}
+.card.unk .nm{font-style:italic;font-weight:500}
 .card.hit{outline:2px solid var(--unk);outline-offset:1px}
 .card.dim{opacity:.3}
 .tog{position:absolute;width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--muted);font:600 11px var(--sans);cursor:pointer;padding:0;z-index:2}
@@ -174,8 +174,8 @@ function init(data){
     let a=-1; for(let i=0;i<A.length;i++){ if(setB.has(A[i].id)){a=i;break;} }
     if(a<0) return '';
     const lca=A[a], b=B.findIndex(x=>x.id===lca.id), f=p.gioi==='nu';
-    if(b===0) return ['','cha','ông','cụ','kỵ'][a] || `tổ tiên (trên ${a} đời)`;
-    if(a===0) return b===1 ? (f?'con gái':'con trai') : (['','','cháu','chắt','chút'][b] || `hậu duệ (dưới ${b} đời)`);
+    if(b===0) return ['','cha','ông nội','ông cố','ông sơ'][a] || `tổ tiên (trên ${a} đời)`;
+    if(a===0) return b===1 ? (f?'con gái':'con trai') : (['','','cháu nội','chắt','chít'][b] || `hậu duệ (dưới ${b} đời)`);
     if(a===1&&b===1){ const older=lca.kids.indexOf(p)<lca.kids.indexOf(me); return older?(f?'chị':'anh'):'em'; }
     if(b===1){
       const x=A[a-1], older=lca.kids.indexOf(p)<lca.kids.indexOf(x);
@@ -195,7 +195,15 @@ function init(data){
   sel.value=meId; sel.onchange=()=>{ meId=sel.value; render(); };
 
   // ---- Bố cục
-  const CW=150, CH=72, GX=14, GY=58, COL=CW+GX, ROW=CH+GY;
+  let CW=150, COL; const CH=58, GX=14, GY=58, ROW=CH+GY;
+  // Độ rộng thẻ tự co giãn theo tên dài nhất để mọi tên nằm trên 1 dòng
+  function fitCards(){
+    const c=document.createElement('canvas').getContext('2d');
+    c.font="600 14.5px 'Source Serif 4','Noto Serif',Georgia,serif";
+    let w=0; T.forEach(p=>{ w=Math.max(w,c.measureText(p.full).width); });
+    CW=Math.min(320,Math.max(150,Math.ceil(w)+32)); COL=CW+GX;
+  }
+  fitCards();
   let query='', zoom=1, open=new Set(T.map(p=>p.id));
   const matches=p=>query && p.full.toLowerCase().includes(query);
   const visible=p=>matches(p)||p.kids.some(k=>inTree.has(k.id)&&visible(k));
@@ -224,6 +232,7 @@ function init(data){
     if(my) return `Mất ${my}`;
     return p.daMat?'Đã mất':'';
   }
+  const cap=t=>t?t.charAt(0).toUpperCase()+t.slice(1):'';   // viết hoa chữ cái đầu của xưng hô
   function render(){
     if(query){ real.forEach(p=>{ if(matches(p)) path(p.id).slice(1).forEach(a=>open.add(a.id)); }); }
     const {list,rows}=layout();
@@ -243,7 +252,7 @@ function init(data){
     const html=vis.map(p=>{
       const r=rel(meId,p.id), y=life(p);
       const dim=query&&!matches(p)&&!visible(p)?' dim':'', hit=matches(p)?' hit':'';
-      const sub=p.unk?'':`<span class="yr">${esc(y)}${r?`${y?' · ':''}<b>${esc(r)}</b>`:''}</span>`;
+      const sub=p.unk?'':`<span class="yr">${esc(y)}${r?`${y?' · ':''}<b>${esc(cap(r))}</b>`:''}</span>`;
       let h=`<button class="card chi${p.chi||0}${p.unk?' unk':''}${p.id===meId?' me':''}${hit}${dim}" data-p="${esc(p.id)}" style="left:${p.x}px;top:${p.y}px;width:${CW}px;height:${CH}px"><span class="nm">${esc(p.full)}</span>${sub}</button>`;
       if(p.kids.length){
         const o=open.has(p.id);
@@ -255,8 +264,10 @@ function init(data){
     cv.insertAdjacentHTML('beforeend',html);
   }
   render();
-  (function(){ const v=$('#view');   // mở trang ở đỉnh cây, giữa cụ xa nhất
-    v.scrollLeft=Math.max(0,root.x*zoom-v.clientWidth/2+CW/2+58); v.scrollTop=0; })();
+  function startView(){ const v=$('#view');   // mở trang ở đỉnh cây, giữa cụ xa nhất
+    v.scrollLeft=Math.max(0,root.x*zoom-v.clientWidth/2+CW/2+58); v.scrollTop=0; }
+  startView();
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(()=>{ fitCards(); render(); startView(); });
 
   $('#canvas').addEventListener('click',e=>{
     const t=e.target.closest('[data-t]'), c=e.target.closest('[data-p]');
