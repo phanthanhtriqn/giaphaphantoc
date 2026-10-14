@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gia phả</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF1EC; --surface:#FAFBF8; --ink:#18241E; --muted:#5B6A61; --line:#B3BFB5;
+  --jade:#2D6A57; --jade-soft:#D9E8E0; --unk:#8A6B2C; --unk-soft:#F1E8D2; --err:#9B2C2C; --err-soft:#F6DEDE;
+  --c0:#8C998F; --c1:#2D6A57; --c2:#3F6E9A; --c3:#A06A3A;
+  --shadow:0 1px 2px rgba(24,36,30,.08);
+  --serif:'Source Serif 4','Noto Serif',Georgia,serif;
+  --sans:'Be Vietnam Pro','Segoe UI',system-ui,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#111915; --surface:#19231E; --ink:#E6ECE7; --muted:#9BAAA1; --line:#35453D;
+    --jade:#6FB89F; --jade-soft:#20352D; --unk:#D2B26B; --unk-soft:#2D2819; --err:#F0A3A3; --err-soft:#3A2020;
+    --c0:#75837A; --c1:#6FB89F; --c2:#7FA9D3; --c3:#D39A67; --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111915; --surface:#19231E; --ink:#E6ECE7; --muted:#9BAAA1; --line:#35453D;
+  --jade:#6FB89F; --jade-soft:#20352D; --unk:#D2B26B; --unk-soft:#2D2819; --err:#F0A3A3; --err-soft:#3A2020;
+  --c0:#75837A; --c1:#6FB89F; --c2:#7FA9D3; --c3:#D39A67; --shadow:none;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--sans);-webkit-text-size-adjust:100%}
+.top{padding:16px 14px 8px;max-width:720px;margin:0 auto}
+h1{font:700 26px/1.2 var(--serif);margin:0 0 4px}
+.sub{color:var(--muted);margin:0 0 8px;font-size:13.5px}
+.stats{display:flex;flex-wrap:wrap;gap:4px 16px;margin:0 0 10px;font-size:13.5px;color:var(--muted)}
+.stats b{color:var(--ink);font-weight:600}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.bar input,.bar select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 12px;min-height:44px}
+.bar input{flex:1 1 150px;min-width:0}
+.bar select{flex:1 1 170px;min-width:0}
+.btn{font:inherit;font-size:14px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 12px;min-width:44px;min-height:44px;cursor:pointer}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin:8px 0 0}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.err{background:var(--err-soft);color:var(--err);border-radius:8px;padding:10px 14px;margin:0 0 10px;font-size:13.5px}
+.err ul{margin:6px 0 0;padding-left:18px}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--jade);outline-offset:2px}
+
+.view{position:relative;display:flex;height:calc(100vh - 270px);min-height:380px;overflow:auto;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--bg);-webkit-overflow-scrolling:touch}
+.heads{position:sticky;left:0;z-index:3;flex:none;width:58px;background:var(--bg);border-right:1px solid var(--line)}
+.heads span{position:absolute;left:0;width:58px;display:flex;align-items:center;justify-content:center;font:600 13px var(--sans);color:var(--jade)}
+.heads span.z{color:var(--unk)}
+.sizer{position:relative;flex:none}
+.canvas{position:absolute;left:0;top:0;transform-origin:0 0}
+svg{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
+svg path{fill:none;stroke:var(--line);stroke-width:1.6}
+.card{position:absolute;display:block;text-align:left;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c0);border-radius:8px;padding:6px 10px;cursor:pointer;box-shadow:var(--shadow);overflow:hidden}
+.card.chi1{border-top-color:var(--c1)} .card.chi2{border-top-color:var(--c2)} .card.chi3{border-top-color:var(--c3)}
+.card .nm{display:block;font:600 15px/1.25 var(--serif);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .yr{display:block;font:400 12px/1.4 var(--sans);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .yr b{color:var(--jade);font-weight:600}
+.card.me{outline:2px solid var(--jade);outline-offset:1px}
+.card.unk{border-style:dashed;border-top-style:dashed;background:transparent;box-shadow:none;color:var(--unk)}
+.card.unk .nm{font-style:italic;font-weight:500;white-space:normal}
+.card.hit{outline:2px solid var(--unk);outline-offset:1px}
+.card.dim{opacity:.3}
+.tog{position:absolute;width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--muted);font:600 11px var(--sans);cursor:pointer;padding:0;z-index:2}
+
+.back{position:fixed;inset:0;background:rgba(10,18,14,.45);opacity:0;pointer-events:none;transition:opacity .2s;z-index:10}
+.back.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;margin:0 auto;max-width:560px;background:var(--surface);border-radius:16px 16px 0 0;padding:18px 18px calc(18px + env(safe-area-inset-bottom,0px));max-height:82%;overflow:auto;transform:translateY(105%);transition:transform .25s ease;box-shadow:0 -8px 30px rgba(0,0,0,.25);z-index:11}
+.sheet.on{transform:none}
+.sheet h2{font:700 24px/1.2 var(--serif);margin:0 40px 2px 0}
+.close{position:absolute;right:12px;top:12px;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:18px;cursor:pointer}
+.meta{color:var(--muted);font-size:13.5px;margin:0 0 12px}
+.chip{display:inline-block;background:var(--jade-soft);color:var(--jade);border-radius:999px;padding:3px 12px;font-weight:600;font-size:14px;margin-bottom:12px}
+dl{margin:0;display:grid;grid-template-columns:104px 1fr;gap:8px 12px;font-size:14.5px}
+dt{color:var(--muted)} dd{margin:0}
+.path{font-size:13.5px;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.priv,.empty{background:var(--bg);border-radius:8px;padding:10px 12px;font-size:13.5px;color:var(--muted);margin-top:8px}
+.note-unk{background:var(--unk-soft);color:var(--unk);border-radius:8px;padding:10px 12px;font-size:14px;margin-top:10px}
+@media (prefers-reduced-motion:reduce){.sheet,.back{transition:none}}
+</style>
+</head>
+<body>
+<div class="top">
+  <h1 id="title">Gia phả</h1>
+  <p class="sub" id="desc"></p>
+  <div id="errs"></div>
+  <div class="stats" id="stats"></div>
+  <div class="bar">
+    <input type="search" id="q" placeholder="Tìm theo tên" aria-label="Tìm theo tên">
+    <select id="me" aria-label="Xem xưng hô từ góc nhìn của"></select>
+    <button class="btn" id="zout" aria-label="Thu nhỏ">−</button>
+    <button class="btn" id="zin" aria-label="Phóng to">+</button>
+  </div>
+  <div class="legend" id="legend"></div>
+</div>
+
+<div class="view" id="view">
+  <div class="heads" id="heads"></div>
+  <div class="sizer" id="sizer"><div class="canvas" id="canvas"><svg id="svg"></svg></div></div>
+</div>
+
+<div class="back" id="back"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sh-title">
+  <button class="close" id="close" aria-label="Đóng">✕</button>
+  <div id="sheet-body"></div>
+</div>
+
+<script>
+const $ = s=>document.querySelector(s);
+const esc = t=>String(t==null?'':t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+// Nguồn dữ liệu: file gia-pha.json (hoặc dữ liệu nhúng sẵn trong preview.html)
+const load = window.GIA_PHA_DATA ? Promise.resolve(window.GIA_PHA_DATA)
+  : fetch('gia-pha.json',{cache:'no-cache'}).then(r=>{ if(!r.ok) throw new Error('Không tải được gia-pha.json ('+r.status+')'); return r.json(); });
+load.then(init).catch(e=>{
+  $('#errs').innerHTML = `<div class="err"><b>Không đọc được dữ liệu.</b><br>${esc(e.message)}<br>Nếu bạn đang mở file trực tiếp từ máy, trình duyệt chặn đọc file JSON. Hãy dùng preview.html hoặc đưa lên GitHub Pages. Nếu file JSON có lỗi cú pháp (thiếu dấu phẩy, thừa dấu phẩy cuối), kiểm tra lại bằng jsonlint.com.</div>`;
+});
+
+function init(data){
+  const HO = data.ho || '';
+  document.title = data.tenGiaPha || 'Gia phả';
+  $('#title').textContent = data.tenGiaPha || 'Gia phả';
+  $('#desc').textContent = data.moTa || '';
+
+  // ---- Đọc và kiểm tra dữ liệu
+  const errors=[], D=[], by={};
+  (data.nguoi||[]).forEach((o,i)=>{
+    if(!o.id){ errors.push(`Mục thứ ${i+1} thiếu "id".`); return; }
+    if(by[o.id]){ errors.push(`Trùng id "${o.id}".`); return; }
+    const p = Object.assign({}, o, {up:o.cha||null, unk:!!o.chuaRo, kids:[]});
+    if(!p.ten){ errors.push(`Người có id "${o.id}" thiếu "ten".`); p.ten='(thiếu tên)'; }
+    by[p.id]=p; D.push(p);
+  });
+  const roots=[];
+  D.forEach(p=>{
+    if(!p.up){ roots.push(p); return; }
+    if(!by[p.up]){ errors.push(`"${p.ten}" (id ${p.id}) có cha là "${p.up}" nhưng không có người nào mang id này.`); p.bad=true; return; }
+    by[p.up].kids.push(p);
+  });
+  if(roots.length===0){ $('#errs').innerHTML=`<div class="err">Chưa có người gốc. Cụ xa nhất cần để "cha": null.</div>`; return; }
+  if(roots.length>1) errors.push(`Có ${roots.length} người không có cha (${roots.map(r=>r.ten).join(', ')}). Chỉ nên có 1 người gốc, những người còn lại hãy ghi "cha" là id của cha.`);
+  const root=roots[0];
+  // loại các nút không nối được vào cây
+  const inTree=new Set(); (function walk(p,d,seen){ if(seen.has(p.id)){errors.push(`Vòng lặp quan hệ tại "${p.ten}".`);return;} seen.add(p.id); inTree.add(p.id); p.depth=d; p.kids.forEach(k=>walk(k,d+1,seen)); })(root,0,new Set());
+  const lost=D.filter(p=>!inTree.has(p.id)&&!p.bad&&p.up); lost.forEach(p=>errors.push(`"${p.ten}" không nối được vào cây.`));
+  const T = D.filter(p=>inTree.has(p.id));
+  const off = root.unk ? 0 : 1;
+  T.forEach(p=>{ p.gen=p.depth+off; p.full=p.unk?p.ten:(HO?HO+' '+p.ten:p.ten); });
+  if(errors.length) $('#errs').innerHTML=`<div class="err"><b>Dữ liệu có ${errors.length} chỗ cần sửa:</b><ul>${errors.map(e=>`<li>${esc(e)}</li>`).join('')}</ul></div>`;
+
+  const real = T.filter(p=>!p.unk);
+  const path = id=>{ const a=[]; let x=by[id]; while(x&&inTree.has(x.id)){a.push(x); x=x.up?by[x.up]:null;} return a; };
+  const maxGen = Math.max(...T.map(p=>p.gen));
+
+  // ---- Thống kê và chú thích
+  const chis = [...new Set(real.map(p=>p.chi).filter(c=>c>0))].sort();
+  const unkCount = T.filter(p=>p.unk).length;
+  $('#stats').innerHTML = `<span><b>${real.length}</b> người</span><span><b>${real.reduce((m,p)=>Math.max(m,p.gen),0)}</b> đời</span>${chis.length>1?`<span><b>${chis.length}</b> chi</span>`:''}${unkCount?`<span><b>${unkCount}</b> chỗ chưa rõ</span>`:''}`;
+  const chiName=['','cả','hai','ba'];
+  $('#legend').innerHTML = chis.filter(c=>c<=3).map(c=>`<span><i style="background:var(--c${c})"></i>Chi ${chiName[c]}</span>`).join('') + (unkCount?`<span><i style="border:1.5px dashed var(--unk)"></i>Chưa rõ, đang tìm</span>`:'');
+
+  // ---- Xưng hô
+  function rel(meId,pId){
+    const me=by[meId], p=by[pId];
+    if(p.unk) return '';
+    if(meId===pId) return 'bạn';
+    const A=path(meId), B=path(pId), setB=new Set(B.map(x=>x.id));
+    let a=-1; for(let i=0;i<A.length;i++){ if(setB.has(A[i].id)){a=i;break;} }
+    if(a<0) return '';
+    const lca=A[a], b=B.findIndex(x=>x.id===lca.id), f=p.gioi==='nu';
+    if(b===0) return ['','cha','ông','cụ','kỵ'][a] || `tổ tiên (trên ${a} đời)`;
+    if(a===0) return b===1 ? (f?'con gái':'con trai') : (['','','cháu','chắt','chút'][b] || `hậu duệ (dưới ${b} đời)`);
+    if(a===1&&b===1){ const older=lca.kids.indexOf(p)<lca.kids.indexOf(me); return older?(f?'chị':'anh'):'em'; }
+    if(b===1){
+      const x=A[a-1], older=lca.kids.indexOf(p)<lca.kids.indexOf(x);
+      if(a===2) return f?'cô':(older?'bác':'chú');
+      if(a===3) return f?'bà cô':(older?'ông bác':'ông chú');
+      return 'anh em của tổ tiên';
+    }
+    if(a===1) return b===2?'cháu':'cháu họ (dưới)';
+    if(a===b) return f?'chị em họ':'anh em họ';
+    return a>b?'họ hàng hàng trên':'họ hàng hàng dưới';
+  }
+
+  // ---- Chọn góc nhìn (mặc định: người đánh dấu "song" đầu tiên, nếu không thì người cuối cùng)
+  let meId = (real.find(p=>p.song)||real[real.length-1]).id;
+  const sel=$('#me');
+  sel.innerHTML = real.map(p=>`<option value="${esc(p.id)}">Góc nhìn: ${esc(p.full)}</option>`).join('');
+  sel.value=meId; sel.onchange=()=>{ meId=sel.value; render(); };
+
+  // ---- Bố cục
+  const CW=150, CH=58, GX=14, GY=58, COL=CW+GX, ROW=CH+GY;
+  let query='', zoom=1, open=new Set(T.map(p=>p.id));
+  const matches=p=>query && p.full.toLowerCase().includes(query);
+  const visible=p=>matches(p)||p.kids.some(k=>inTree.has(k.id)&&visible(k));
+  const descCount=p=>p.kids.reduce((n,k)=>n+1+descCount(k),0);
+
+  function layout(){
+    let slot=0; const list=[];
+    (function lay(p){
+      p.y=p.depth*ROW;
+      if(p.kids.length&&open.has(p.id)){ p.kids.forEach(lay); p.x=(p.kids[0].x+p.kids[p.kids.length-1].x)/2; }
+      else { p.x=slot*COL; slot++; }
+      list.push(p);
+    })(root);
+    return {list,rows:slot};
+  }
+  function life(p){
+    if(p.unk) return '';
+    if(p.song) return 'Còn sống';
+    if(p.sinh&&p.mat) return `${p.sinh} – ${p.mat}`;
+    if(p.sinh) return `Sinh ${p.sinh}`;
+    if(p.mat) return `Mất ${p.mat}`;
+    return '';
+  }
+  function render(){
+    if(query){ real.forEach(p=>{ if(matches(p)) path(p.id).slice(1).forEach(a=>open.add(a.id)); }); }
+    const {list,rows}=layout();
+    const vis=list.filter(p=>{ let x=p; while(x.up){ x=by[x.up]; if(!open.has(x.id)) return false; } return true; });
+    const W=rows*COL-GX, H=(maxGen-off+1)*ROW-GY;
+
+    $('#heads').innerHTML = Array.from({length:maxGen-off+1},(_,i)=>{ const g=i+off; return `<span class="${g===0?'z':''}" style="top:${12+i*ROW*zoom}px;height:${CH*zoom}px">${g===0?'Chưa rõ':'Đời '+g}</span>`; }).join('');
+    const sizer=$('#sizer'); sizer.style.width=(W*zoom+24)+'px'; sizer.style.height=(H*zoom+24)+'px';
+    const cv=$('#canvas'); cv.style.width=W+'px'; cv.style.height=H+'px'; cv.style.transform=`scale(${zoom})`; cv.style.top='12px'; cv.style.left='12px';
+
+    let d='';
+    vis.forEach(p=>{ if(p.up&&open.has(p.up)){ const q=by[p.up];
+      const x1=q.x+CW/2,y1=q.y+CH,x2=p.x+CW/2,y2=p.y,my=y1+(y2-y1)/2;
+      d+=`<path d="M${x1} ${y1} V${my} H${x2} V${y2}"/>`; }});
+    const svg=$('#svg'); svg.setAttribute('width',W); svg.setAttribute('height',H); svg.innerHTML=d;
+
+    const html=vis.map(p=>{
+      const r=rel(meId,p.id), y=life(p);
+      const dim=query&&!matches(p)&&!visible(p)?' dim':'', hit=matches(p)?' hit':'';
+      const sub=p.unk?'':`<span class="yr">${esc(y)}${r?`${y?' · ':''}<b>${esc(r)}</b>`:''}</span>`;
+      let h=`<button class="card chi${p.chi||0}${p.unk?' unk':''}${p.id===meId?' me':''}${hit}${dim}" data-p="${esc(p.id)}" style="left:${p.x}px;top:${p.y}px;width:${CW}px;height:${CH}px"><span class="nm">${esc(p.full)}</span>${sub}</button>`;
+      if(p.kids.length){
+        const o=open.has(p.id);
+        h+=`<button class="tog" data-t="${esc(p.id)}" aria-expanded="${o}" aria-label="${o?'Thu gọn':'Mở rộng'} nhánh ${esc(p.full)}" style="left:${p.x+CW/2-14}px;top:${p.y+CH+2}px">${o?'−':'+'+descCount(p)}</button>`;
+      }
+      return h;
+    }).join('');
+    cv.querySelectorAll('.card,.tog').forEach(n=>n.remove());
+    cv.insertAdjacentHTML('beforeend',html);
+  }
+  render();
+  (function(){ const v=$('#view');   // mở trang ở đỉnh cây, giữa cụ xa nhất
+    v.scrollLeft=Math.max(0,root.x*zoom-v.clientWidth/2+CW/2+58); v.scrollTop=0; })();
+
+  $('#canvas').addEventListener('click',e=>{
+    const t=e.target.closest('[data-t]'), c=e.target.closest('[data-p]');
+    if(t){ const id=t.dataset.t; open.has(id)?open.delete(id):open.add(id); render(); }
+    else if(c) showSheet(c.dataset.p);
+  });
+  $('#q').addEventListener('input',e=>{ query=e.target.value.trim().toLowerCase(); render(); });
+  $('#zin').onclick=()=>{ zoom=Math.min(1.5,+(zoom+.15).toFixed(2)); render(); };
+  $('#zout').onclick=()=>{ zoom=Math.max(.55,+(zoom-.15).toFixed(2)); render(); };
+
+  // ---- Bảng chi tiết
+  let lastFocus=null;
+  function showSheet(id){
+    const p=by[id]; lastFocus=document.activeElement; let h='';
+    if(p.unk){
+      h=`<h2 id="sh-title">${esc(p.ten)}</h2><p class="meta">${p.gen===0?'Phía trên cụ xa nhất':'Đời '+p.gen}</p><div class="note-unk">${esc(p.ghiChu||'Chưa có thông tin. Nếu bạn biết thêm, hãy liên hệ người quản trị gia phả.')}</div>`;
+    } else {
+      const r=rel(meId,id);
+      h=`<h2 id="sh-title">${esc(p.full)}</h2><p class="meta">Đời ${p.gen}${p.chi?' · Chi '+chiName[p.chi]:''}${p.gioi==='nu'?' · Con gái':''}</p>`;
+      if(r&&id!==meId) h+=`<span class="chip">${esc(r.charAt(0).toUpperCase()+r.slice(1))} của ${esc(by[meId].ten.split(' ').slice(-1)[0])}</span>`;
+      if(p.song){
+        h+=`<div class="priv">Người còn sống: ngày sinh, nơi ở và liên lạc được ẩn để bảo vệ quyền riêng tư.</div>`;
+      } else {
+        const sp=[].concat(p.vo||[]).filter(Boolean);
+        const rows=[];
+        if(p.sinh) rows.push(['Năm sinh',p.sinh]);
+        if(p.mat) rows.push(['Năm mất',p.mat]);
+        if(p.ngayGio) rows.push(['Ngày giỗ',p.ngayGio]);
+        if(sp.length) rows.push([p.gioi==='nu'?'Chồng':'Vợ',sp.join(', ')]);
+        if(p.nguon) rows.push(['Nguồn tin',p.nguon]);
+        if(p.ghiChu) rows.push(['Ghi chú',p.ghiChu]);
+        h+= rows.length ? `<dl>${rows.map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')}</dl>` : `<div class="empty">Chưa có thêm thông tin.</div>`;
+      }
+      const kids=p.kids.filter(k=>!k.unk);
+      if(kids.length) h+=`<div class="path"><b>Con:</b> ${kids.map(k=>esc(k.ten)).join(', ')}</div>`;
+      const chain=path(id).filter(x=>!x.unk).reverse().map(x=>esc(x.ten));
+      h+=`<div class="path"><b>Đường truyền từ cụ xa nhất:</b><br>${chain.join(' → ')}</div>`;
+    }
+    $('#sheet-body').innerHTML=h;
+    $('#sheet').classList.add('on'); $('#back').classList.add('on'); $('#close').focus();
+  }
+  function hideSheet(){ $('#sheet').classList.remove('on'); $('#back').classList.remove('on'); if(lastFocus) lastFocus.focus(); }
+  $('#close').onclick=hideSheet; $('#back').onclick=hideSheet;
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') hideSheet(); });
+}
+</script>
+</body>
+</html>

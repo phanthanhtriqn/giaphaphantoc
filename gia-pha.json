@@ -1,0 +1,140 @@
+{
+  "tenGiaPha": "Gia phả họ Phan",
+  "moTa": "Một nhánh của dòng họ Phan, bắt đầu từ cụ Phan Hậu. Chạm vào một người để xem chi tiết.",
+  "ho": "Phan",
+  "nguoi": [
+    {
+      "id": "r0",
+      "cha": null,
+      "ten": "Các đời trước",
+      "chuaRo": true,
+      "ghiChu": "Dòng họ bị thất lạc nên chưa tìm được tổ tiên xa hơn cụ Phan Hậu. Khi tìm được, các đời này sẽ được thêm vào phía trên mà không cần sửa lại cây."
+    },
+    {
+      "id": "a1",
+      "cha": "r0",
+      "ten": "Hậu",
+      "gioi": "nam",
+      "vo": [
+        "Trần Thị Đỉ",
+        "Nguyễn Thị Hạnh"
+      ],
+      "chi": 1,
+      "ghiChu": "Người xa nhất còn biết trong nhánh này."
+    },
+    {
+      "id": "b1",
+      "cha": "a1",
+      "ten": "Thị Ca",
+      "gioi": "nu",
+      "chi": 0
+    },
+    {
+      "id": "b2",
+      "cha": "a1",
+      "ten": "Việt Hùng",
+      "gioi": "nam",
+      "vo": "Nguyễn Thị Niên",
+      "chi": 1
+    },
+    {
+      "id": "c1",
+      "cha": "b2",
+      "ten": "Thanh Tâm",
+      "gioi": "nam",
+      "vo": "Nguyễn Thị Dũng",
+      "chi": 1
+    },
+    {
+      "id": "c2",
+      "cha": "b2",
+      "ten": "Thị Diễn",
+      "gioi": "nu",
+      "chi": 1
+    },
+    {
+      "id": "c3",
+      "cha": "b2",
+      "ten": "Tiến Dũng",
+      "gioi": "nam",
+      "vo": "Trần Thị Lợi",
+      "chi": 1
+    },
+    {
+      "id": "c4",
+      "cha": "b2",
+      "ten": "Thị Việt",
+      "gioi": "nu",
+      "chi": 1
+    },
+    {
+      "id": "c5",
+      "cha": "b2",
+      "ten": "Thị Dạt",
+      "gioi": "nu",
+      "chi": 1
+    },
+    {
+      "id": "c6",
+      "cha": "b2",
+      "ten": "Tấn Đạt",
+      "gioi": "nam",
+      "chi": 1
+    },
+    {
+      "id": "d1",
+      "cha": "c1",
+      "ten": "Thanh Trí",
+      "gioi": "nam",
+      "song": true,
+      "chi": 1
+    },
+    {
+      "id": "d2",
+      "cha": "c1",
+      "ten": "Tuần Mạnh",
+      "gioi": "nam",
+      "chi": 1
+    },
+    {
+      "id": "d3",
+      "cha": "c1",
+      "ten": "Việt Cường",
+      "gioi": "nam",
+      "chi": 1
+    },
+    {
+      "id": "d4",
+      "cha": "c1",
+      "ten": "Quốc Thịnh",
+      "gioi": "nam",
+      "chi": 1
+    },
+    {
+      "id": "d5",
+      "cha": "c3",
+      "ten": "Tiến Bảo",
+      "gioi": "nam",
+      "chi": 1
+    },
+    {
+      "id": "d6",
+      "cha": "c3",
+      "ten": "Tiến Thành",
+      "gioi": "nam",
+      "chi": 1
+    },
+    {
+      "id": "d7",
+      "cha": "c3",
+      "ten": "Thị Mỹ Vy",
+      "gioi": "nu",
+      "chi": 1
+    }
+  ],
+  "_canXacNhan": [
+    "Thứ tự anh chị em trong mỗi gia đình đang theo thứ tự trái sang phải trong sơ đồ. Nếu khác thứ tự sinh thật thì sắp lại các dòng trong file.",
+    "Chưa có năm sinh, năm mất, ngày giỗ của ai. Có thì thêm các trường sinh, mat, ngayGio. Người còn sống thì thêm \"song\": true.",
+    "Chưa rõ ông Phan Việt Hùng và bà Phan Thị Ca là con của bà vợ nào của cụ Hậu (trong sơ đồ hai người nối với bà Trần Thị Đỉ). Nếu biết, ghi vào ghiChu của từng người."
+  ]
+}
