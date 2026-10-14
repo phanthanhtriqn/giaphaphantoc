@@ -59,7 +59,7 @@ svg{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
 svg path{fill:none;stroke:var(--line);stroke-width:1.6}
 .card{position:absolute;display:block;text-align:left;font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--c0);border-radius:8px;padding:6px 10px;cursor:pointer;box-shadow:var(--shadow);overflow:hidden}
 .card.chi1{border-top-color:var(--c1)} .card.chi2{border-top-color:var(--c2)} .card.chi3{border-top-color:var(--c3)}
-.card .nm{display:block;font:600 15px/1.25 var(--serif);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .nm{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;font:600 14.5px/1.25 var(--serif);overflow:hidden;word-break:break-word}
 .card .yr{display:block;font:400 12px/1.4 var(--sans);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .card .yr b{color:var(--jade);font-weight:600}
 .card.me{outline:2px solid var(--jade);outline-offset:1px}
@@ -195,7 +195,7 @@ function init(data){
   sel.value=meId; sel.onchange=()=>{ meId=sel.value; render(); };
 
   // ---- Bố cục
-  const CW=150, CH=58, GX=14, GY=58, COL=CW+GX, ROW=CH+GY;
+  const CW=150, CH=72, GX=14, GY=58, COL=CW+GX, ROW=CH+GY;
   let query='', zoom=1, open=new Set(T.map(p=>p.id));
   const matches=p=>query && p.full.toLowerCase().includes(query);
   const visible=p=>matches(p)||p.kids.some(k=>inTree.has(k.id)&&visible(k));
@@ -211,13 +211,18 @@ function init(data){
     })(root);
     return {list,rows:slot};
   }
+  const yearOf=v=>{ const m=String(v||'').match(/\d{4}/); return m?m[0]:''; };
+  const deathOf=p=>p.ngayMat||p.mat||'';          // ngày mất (đầy đủ hoặc chỉ năm)
+  const gioTuAmLich=v=>{ const m=String(v||'').match(/^\s*(\d{1,2})\s*\/\s*(\d{1,2})/); return m?`${m[1]}/${m[2]} âm lịch hằng năm`:''; };  // ngày giỗ lấy từ ngày mất âm lịch
+  const isDead=p=>!p.song&&(p.daMat||deathOf(p));
   function life(p){
     if(p.unk) return '';
     if(p.song) return 'Còn sống';
-    if(p.sinh&&p.mat) return `${p.sinh} – ${p.mat}`;
+    const my=yearOf(deathOf(p));
+    if(p.sinh&&my) return `${p.sinh} – ${my}`;
     if(p.sinh) return `Sinh ${p.sinh}`;
-    if(p.mat) return `Mất ${p.mat}`;
-    return '';
+    if(my) return `Mất ${my}`;
+    return p.daMat?'Đã mất':'';
   }
   function render(){
     if(query){ real.forEach(p=>{ if(matches(p)) path(p.id).slice(1).forEach(a=>open.add(a.id)); }); }
@@ -275,11 +280,15 @@ function init(data){
       if(p.song){
         h+=`<div class="priv">Người còn sống: ngày sinh, nơi ở và liên lạc được ẩn để bảo vệ quyền riêng tư.</div>`;
       } else {
-        const sp=[].concat(p.vo||[]).filter(Boolean);
+        const sp=[].concat(p.vo||[],p.chong||[]).filter(Boolean);
         const rows=[];
         if(p.sinh) rows.push(['Năm sinh',p.sinh]);
-        if(p.mat) rows.push(['Năm mất',p.mat]);
-        if(p.ngayGio) rows.push(['Ngày giỗ',p.ngayGio]);
+        if(isDead(p)){
+          rows.push(['Ngày mất',deathOf(p)||(p.ngayMatAL?'Chưa rõ (dương lịch)':'Chưa rõ')]);
+          if(p.ngayMatAL) rows.push(['Ngày mất (âm lịch)',p.ngayMatAL+' âm lịch']);
+        }
+        const gio=p.ngayGio||gioTuAmLich(p.ngayMatAL);
+        if(gio) rows.push(['Ngày giỗ',gio]);
         if(sp.length) rows.push([p.gioi==='nu'?'Chồng':'Vợ',sp.join(', ')]);
         if(p.nguon) rows.push(['Nguồn tin',p.nguon]);
         if(p.ghiChu) rows.push(['Ghi chú',p.ghiChu]);
