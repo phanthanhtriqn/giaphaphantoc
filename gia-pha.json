@@ -1,5 +1,5 @@
 {
-  "tenGiaPha": "Gia phả họ Phan",
+  "tenGiaPha": "GIA PHẢ HỌ PHAN",
   "moTa": "Một nhánh của dòng họ Phan, bắt đầu từ cụ Phan Hậu. Chạm vào một người để xem chi tiết.",
   "ho": "Phan",
   "nguoi": [
@@ -72,6 +72,7 @@
       "cha": "b2",
       "ten": "Thị Dạt",
       "gioi": "nu",
+      "chong": "Võ Ngọc Hòa",
       "chi": 1
     },
     {
@@ -86,6 +87,7 @@
       "cha": "c1",
       "ten": "Thanh Trí",
       "gioi": "nam",
+      "vo": "PHẠM THỊ LINH",
       "song": true,
       "chi": 1
     },
@@ -94,6 +96,7 @@
       "cha": "c1",
       "ten": "Tuần Mạnh",
       "gioi": "nam",
+      "vo": "NGUYỄN THỊ TUYẾT SƯƠNG",
       "chi": 1
     },
     {
@@ -108,6 +111,7 @@
       "cha": "c1",
       "ten": "Quốc Thịnh",
       "gioi": "nam",
+      "vo": "NGUYỄN THỊ DIỆU HIỀN",
       "chi": 1
     },
     {
@@ -129,6 +133,41 @@
       "cha": "c3",
       "ten": "Thị Mỹ Vy",
       "gioi": "nu",
+      "chi": 1
+    },
+    {
+      "id": "e1",
+      "cha": "d1",
+      "ten": "THANH NHẬT MINH",
+      "gioi": "nam",
+      "chi": 1
+    },
+    {
+      "id": "e2",
+      "cha": "d1",
+      "ten": "THANH NGUYỆT MINH",
+      "gioi": "nu",
+      "chi": 1
+    },
+    {
+      "id": "e3",
+      "cha": "d2",
+      "ten": "TUẤN HOÀNG BÁCH",
+      "gioi": "nam",
+      "chi": 1
+    },
+    {
+      "id": "e4",
+      "cha": "d4",
+      "ten": "QUỐC TRUNG KIÊN",
+      "gioi": "nam",
+      "chi": 1
+    },
+    {
+      "id": "e5",
+      "cha": "d4",
+      "ten": "NGỌC THIÊN HƯƠNG",
+      "gioi": "nam",
       "chi": 1
     }
   ],
