@@ -15,6 +15,9 @@
       "cha": "r0",
       "ten": "HẬU",
       "gioi": "nam",
+      "sinh": 1840,
+      "daMat": true,
+      "ngayMat": "12/08/1902",
       "vo": [
         "TRẦN THỊ ĐỈ",
         "NGUYỄN THỊ HẠNH"
@@ -27,6 +30,9 @@
       "cha": "a1",
       "ten": "THỊ CA",
       "gioi": "nu",
+      "sinh": 1840,
+      "daMat": true,
+      "ngayMat": "12/08/1902",
       "chi": 0
     },
     {
@@ -34,6 +40,9 @@
       "cha": "a1",
       "ten": "VIỆT HÙNG",
       "gioi": "nam",
+      "sinh": 1840,
+      "daMat": true,
+      "ngayMat": "12/08/1902",
       "vo": "NGUYỄN THỊ NIÊN",
       "chi": 1
     },
@@ -50,6 +59,9 @@
       "cha": "b2",
       "ten": "THỊ DIỄN",
       "gioi": "nu",
+      "sinh": 1840,
+      "daMat": true,
+      "ngayMat": "12/08/1902",
       "chi": 0
     },
     {
@@ -65,6 +77,9 @@
       "cha": "b2",
       "ten": "THỊ VIỆT",
       "gioi": "nu",
+      "sinh": 1840,
+      "daMat": true,
+      "ngayMat": "12/08/1902",
       "chi": 0
     },
     {
@@ -80,6 +95,9 @@
       "cha": "b2",
       "ten": "TẤN ĐẠT",
       "gioi": "nam",
+      "sinh": 1840,
+      "daMat": true,
+      "ngayMat": "12/08/1902",
       "chi": 1
     },
     {
