@@ -187,22 +187,19 @@ function init(data){
     const lca=A[a], b=B.findIndex(x=>x.id===lca.id), f=p.gioi==='nu';
     if(b===0) return ['','cha','ông nội','ông cố','ông sơ'][a] || `tổ tiên (trên ${a} đời)`;
     if(a===0) return b===1 ? (f?'con gái':'con trai') : (['','','cháu nội','chắt','chít'][b] || `hậu duệ (dưới ${b} đời)`);
-    if(a===1&&b===1){ const older=lca.kids.indexOf(p)<lca.kids.indexOf(me); return older?(f?'chị':'anh'):'em'; }
-    if(b===1){
-      const x=A[a-1], older=lca.kids.indexOf(p)<lca.kids.indexOf(x);
-      if(a===2) return f?'cô':(older?'bác':'chú');
-      if(a===3) return f?'bà cô':(older?'ông bác':'ông chú');
-      return 'anh em của tổ tiên';
-    }
-    if(a===1) return b===2?'cháu':'cháu họ (dưới)';
-    if(a===b) return f?'chị em họ':'anh em họ';
-    return a>b?'họ hàng hàng trên':'họ hàng hàng dưới';
+    // Quan hệ ngang/xiên: xét chênh lệch số đời (dg) và vai vế (người thuộc nhánh anh hơn là vai lớn hơn)
+    const dg=a-b;
+    const older=()=>lca.kids.indexOf(B[b-1])<lca.kids.indexOf(A[a-1]);
+    if(dg===0){ const o=older(); const h=a>1?' họ':''; return (o?(f?'chị':'anh'):'em')+h; }   // cùng đời
+    if(dg===1) return f?'cô':(older()?'bác':'chú');                                           // cùng đời với cha
+    if(dg>=2) return f?'bà':'ông';                                                            // cùng đời với ông trở lên
+    return 'cháu';                                                                            // đời dưới
   }
 
   // Xưng hô của vợ/chồng theo xưng hô của người chồng/vợ (ông cố → bà cố, cha → mẹ ...)
   const SPMAP={'bạn':'vợ','cha':'mẹ','ông nội':'bà nội','ông cố':'bà cố','ông sơ':'bà sơ',
     'con trai':'con dâu','cháu nội':'cháu dâu','cháu':'cháu dâu','chắt':'chắt dâu','chít':'chít dâu',
-    'anh':'chị dâu','em':'em dâu','bác':'bác gái','chú':'thím','ông bác':'bà bác','ông chú':'bà thím'};
+    'anh':'chị dâu','em':'em dâu','anh họ':'chị dâu','em họ':'em dâu','bác':'bác gái','chú':'thím','ông':'bà'};
   function spLabel(s){
     const r=rel(meId,s.husband.id);
     if(s.gioi==='nam') return r==='bạn'?'chồng':'chồng của '+r;
