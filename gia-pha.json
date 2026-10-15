@@ -40,6 +40,18 @@
       "ghiChu": ""
     },
      {
+      "id": "a6",
+      "cha": "r1",
+      "ten": "CHA ÔNG HUỲNH",
+      "chuaRo": false,
+      "gioi": "nam",
+      "sinh": 1878,
+      "daMat": true,
+      "ngayMat": "02/03",
+      "chi": 1,
+      "ghiChu": ""
+    },
+     {
       "id": "r2",
       "cha": "r0",
       "ten": "ÔNG HAI",
