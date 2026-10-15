@@ -41,7 +41,8 @@
       "sinh": 1897,
       "daMat": true,
       "ngayMat": "12/08/1989",
-      "chi": 0
+      "chi": 0,
+      "ghiChu": "Tên thường gọi là Bà Trà"
      },
     {
       "id": "a3",
@@ -51,7 +52,8 @@
       "sinh": 1897,
       "daMat": true,
       "ngayMat": "12/08/1989",
-      "chi": 0
+      "chi": 0,
+      "ghiChu": "Tên thường gọi là Bà Nên"
      },
     {
       "id": "a4",
@@ -61,7 +63,8 @@
       "sinh": 1897,
       "daMat": true,
       "ngayMat": "12/08/1989",
-      "chi": 0
+      "chi": 0,
+      "ghiChu": "Tên thường gọi là Bà Bên"
      },
     {
       "id": "a5",
@@ -71,7 +74,8 @@
       "sinh": 1897,
       "daMat": true,
       "ngayMat": "12/08/1989",
-      "chi": 0
+      "chi": 0,
+      "ghiChu": "Tên thường gọi là Bà Phò"
      },
     {
       "id": "b1",
