@@ -18,12 +18,20 @@
       "sinh": 1840,
       "daMat": true,
       "ngayMat": "12/08/1902",
-      "vo": [
-        "TRẦN THỊ ĐỈ",
-        "NGUYỄN THỊ HẠNH"
-      ],
       "chi": 1,
       "ghiChu": "Người xa nhất còn biết trong nhánh này."
+    },
+    {
+      "id": "v1",
+      "voCua": "a1",
+      "ten": "TRẦN THỊ ĐỈ",
+      "gioi": "nu"
+    },
+    {
+      "id": "v2",
+      "voCua": "a1",
+      "ten": "NGUYỄN THỊ HẠNH",
+      "gioi": "nu"
     },
     {
       "id": "b1",
@@ -33,7 +41,8 @@
       "sinh": 1840,
       "daMat": true,
       "ngayMat": "12/08/1902",
-      "chi": 0
+      "chi": 0,
+      "me": "v1"
     },
     {
       "id": "b2",
@@ -43,16 +52,27 @@
       "sinh": 1840,
       "daMat": true,
       "ngayMat": "12/08/1902",
-      "vo": "NGUYỄN THỊ NIÊN",
-      "chi": 1
+      "chi": 1,
+      "me": "v1"
+    },
+    {
+      "id": "v3",
+      "voCua": "b2",
+      "ten": "NGUYỄN THỊ NIÊN",
+      "gioi": "nu"
     },
     {
       "id": "c1",
       "cha": "b2",
       "ten": "THANH TÂM",
       "gioi": "nam",
-      "vo": "NGUYỄN THỊ DŨNG",
       "chi": 1
+    },
+    {
+      "id": "v4",
+      "voCua": "c1",
+      "ten": "NGUYỄN THỊ DŨNG",
+      "gioi": "nu"
     },
     {
       "id": "c2",
@@ -69,8 +89,13 @@
       "cha": "b2",
       "ten": "TIẾN DŨNG",
       "gioi": "nam",
-      "vo": "TRẦN THỊ LỢI",
       "chi": 1
+    },
+    {
+      "id": "v5",
+      "voCua": "c3",
+      "ten": "TRẦN THỊ LỢI",
+      "gioi": "nu"
     },
     {
       "id": "c4",
@@ -105,17 +130,27 @@
       "cha": "c1",
       "ten": "THANH TRÍ",
       "gioi": "nam",
-      "vo": "PHẠM THỊ LINH",
       "song": true,
       "chi": 1
+    },
+    {
+      "id": "v6",
+      "voCua": "d1",
+      "ten": "PHẠM THỊ LINH",
+      "gioi": "nu"
     },
     {
       "id": "d2",
       "cha": "c1",
       "ten": "TUẤN MẠNH",
       "gioi": "nam",
-      "vo": "NGUYỄN THỊ TUYẾT SƯƠNG",
       "chi": 1
+    },
+    {
+      "id": "v7",
+      "voCua": "d2",
+      "ten": "NGUYỄN THỊ TUYẾT SƯƠNG",
+      "gioi": "nu"
     },
     {
       "id": "d3",
@@ -129,8 +164,13 @@
       "cha": "c1",
       "ten": "QUỐC THỊNH",
       "gioi": "nam",
-      "vo": "NGUYỄN THỊ DIỆU HIỀN",
       "chi": 1
+    },
+    {
+      "id": "v8",
+      "voCua": "d4",
+      "ten": "NGUYỄN THỊ DIỆU HIỀN",
+      "gioi": "nu"
     },
     {
       "id": "d5",
@@ -191,7 +231,6 @@
   ],
   "_canXacNhan": [
     "Thứ tự anh chị em trong mỗi gia đình đang theo thứ tự trái sang phải trong sơ đồ. Nếu khác thứ tự sinh thật thì sắp lại các dòng trong file.",
-    "Chưa có năm sinh, năm mất, ngày giỗ của ai. Có thì thêm các trường sinh, mat, ngayGio. Người còn sống thì thêm \"song\": true.",
-    "Chưa rõ ông Phan Việt Hùng và bà Phan Thị Ca là con của bà vợ nào của cụ Hậu (trong sơ đồ hai người nối với bà Trần Thị Đỉ). Nếu biết, ghi vào ghiChu của từng người."
+    "Chưa có năm sinh, năm mất, ngày giỗ của ai. Có thì thêm các trường sinh, mat, ngayGio. Người còn sống thì thêm \"song\": true."
   ]
 }
