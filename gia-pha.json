@@ -6,7 +6,7 @@
     {
       "id": "rr0",
       "cha": null,
-      "ten": "THỦY TỔ",
+      "ten": "(THỦY TỔ)",
       "chuaRo": false,
       "gioi": "nam",
       "sinh": 1878,
@@ -18,7 +18,7 @@
     {
       "id": "r0",
       "cha": "rr0",
-      "ten": "ÔNG TỔ",
+      "ten": "(ÔNG TỔ)",
       "chuaRo": false,
       "gioi": "nam",
       "sinh": 1878,
@@ -30,7 +30,7 @@
     {
       "id": "r1",
       "cha": "r0",
-      "ten": "ÔNG MỘT",
+      "ten": "(ÔNG MỘT)",
       "chuaRo": false,
       "gioi": "nam",
       "sinh": 1878,
@@ -42,7 +42,7 @@
      {
       "id": "a7",
       "cha": "r1",
-      "ten": "CHA ÔNG HUỲNH",
+      "ten": "(CHA ÔNG HUỲNH)",
       "chuaRo": false,
       "gioi": "nam",
       "sinh": 1878,
@@ -54,31 +54,155 @@
     {
       "id": "b5",
       "cha": "a7",
-      "ten": "PHAN QUANG VẬY",
+      "ten": "QUANG VẬY",
       "chuaRo": false,
       "gioi": "nam",
       "sinh": 1878,
       "daMat": true,
       "ngayMat": "02/03",
+      "chi": 1,
+      "ghiChu": "Tên thường gọi là Ông Diệt"
+    },
+    {
+      "id": "v9",
+      "voCua": "b5",
+      "ten": "BÀ THIỀU",
+      "gioi": "nu",
+      "daMat": true
+    },
+     {
+      "id": "c14",
+      "cha": "b5",
+      "ten": "QUANG SƠN",
+      "chuaRo": false,
+      "gioi": "nam",
+      "sinh": 1972,
+      "daMat": false,
+      "chi": 1,
+      "ghiChu": ""
+    },
+    {
+      "id": "c15",
+      "cha": "b5",
+      "ten": "QUANG LONG",
+      "chuaRo": false,
+      "gioi": "nam",
+      "sinh": 1978,
+      "daMat": false,
       "chi": 1,
       "ghiChu": ""
     },
     {
       "id": "b6",
       "cha": "a7",
-      "ten": "PHAN ĐỆ",
+      "ten": "ĐỆ",
       "chuaRo": false,
       "gioi": "nam",
       "sinh": 1878,
       "daMat": true,
       "ngayMat": "02/03",
       "chi": 1,
+      "ghiChu": "Tên thường gọi là ông Huỳnh"
+    },
+    {
+      "id": "v10",
+      "voCua": "b6",
+      "ten": "BÀ HUỲNH",
+      "gioi": "nu",
+      "daMat": true
+    },
+    {
+      "id": "c16",
+      "cha": "b6",
+      "ten": "QUANG ANH",
+      "chuaRo": false,
+      "gioi": "nam",
+      "sinh": 1952,
+      "daMat": false,
+      "chi": 1,
       "ghiChu": ""
     },
-     {
+    {
+      "id": "c17",
+      "cha": "b6",
+      "ten": "THANH HÙNG",
+      "chuaRo": false,
+      "gioi": "nam",
+      "sinh": 1954,
+      "daMat": false,
+      "chi": 1,
+      "ghiChu": ""
+    },
+    {
+      "id": "c18",
+      "cha": "b6",
+      "ten": "THANH HÙNG",
+      "chuaRo": false,
+      "gioi": "nam",
+      "sinh": 1965,
+      "daMat": false,
+      "chi": 1,
+      "ghiChu": ""
+    },
+    {
+      "id": "c19",
+      "cha": "b6",
+      "ten": "THANH HÙNG",
+      "chuaRo": false,
+      "gioi": "nam",
+      "sinh": 1967,
+      "daMat": false,
+      "chi": 1,
+      "ghiChu": ""
+    },
+    {
+      "id": "c20",
+      "cha": "b6",
+      "ten": "THANH CAN",
+      "chuaRo": false,
+      "gioi": "nam",
+      "sinh": 1969,
+      "daMat": false,
+      "chi": 1,
+      "ghiChu": ""
+    },
+    {
+      "id": "c21",
+      "cha": "b6",
+      "ten": "QUANG ĐẢM",
+      "chuaRo": false,
+      "gioi": "nam",
+      "sinh": 1972,
+      "daMat": false,
+      "chi": 1,
+      "ghiChu": ""
+    },
+    {
+      "id": "c22",
+      "cha": "b6",
+      "ten": "THỊ NHIỆM",
+      "chuaRo": false,
+      "gioi": "nu",
+      "sinh": 1975,
+      "daMat": false,
+      "chi": 0,
+      "ghiChu": ""
+    },
+    {
+      "id": "c23",
+      "cha": "b6",
+      "ten": "THỊ MƯỜI",
+      "chuaRo": false,
+      "gioi": "nam",
+      "sinh": 1977,
+      "daMat": false,
+      "chi": 0,
+      "ghiChu": ""
+    },
+    {
       "id": "r2",
       "cha": "r0",
-      "ten": "ÔNG HAI",
+      "ten": "(ÔNG HAI)",
       "chuaRo": false,
       "gioi": "nam",
       "sinh": 1878,
