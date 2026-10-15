@@ -31,6 +31,34 @@
       "ngayMat": "12/08/1902",
       "chi": 1
      },
+    {
+      "id": "c7",
+      "cha": "b3",
+      "ten": "NGỌC LUÂN",
+      "gioi": "nam",
+      "sinh": 1900,
+      "daMat": false,
+      "chi": 1
+     },
+    {
+      "id": "c8",
+      "cha": "b3",
+      "ten": "THỊ CHI",
+      "gioi": "nu",
+      "sinh": 1959,
+      "daMat": true,
+      "ngayMat": "09/03 âm lịch",
+      "chi": 0
+     },
+    {
+      "id": "c9",
+      "cha": "b3",
+      "ten": "NGỌC ĐỨC",
+      "gioi": "nam",
+      "sinh": 1900,
+      "daMat": false,
+      "chi": 1
+     },
      {
       "id": "b4",
       "cha": "a1",
@@ -41,6 +69,34 @@
       "ngayMat": "12/08/1902",
       "chi": 1
     },
+    {
+      "id": "c10",
+      "cha": "b4",
+      "ten": "LÂM ĐÌNH NGHỊ",
+      "gioi": "nam",
+      "sinh": 1900,
+      "daMat": false,
+      "chi": 1
+     },
+    {
+      "id": "c11",
+      "cha": "b4",
+      "ten": "LÂM ĐÌNH THU",
+      "gioi": "nam",
+      "sinh": 1900,
+      "daMat": false,
+      "chi": 0
+     },
+    {
+      "id": "c12",
+      "cha": "b4",
+      "ten": "LÂM THỊ XUÂN",
+      "gioi": "nu",
+      "chong": "TRẦN VĂN A",
+      "sinh": 1900,
+      "daMat": false,
+      "chi": 0
+     },
     {
       "id": "a2",
       "cha": "r0",
@@ -56,13 +112,21 @@
       "id": "v1",
       "voCua": "a2",
       "ten": "TRẦN THỊ ĐỈ",
-      "gioi": "nu"
+      "gioi": "nu",
+      "sinh": 1880,
+      "daMat": true,
+      "ngayMat": "02/03",
+      "chi": 0
     },
     {
       "id": "v2",
       "voCua": "a2",
       "ten": "NGUYỄN THỊ HẠNH",
-      "gioi": "nu"
+      "gioi": "nu",
+      "sinh": 1880,
+      "daMat": true,
+      "ngayMat": "02/03",
+      "chi": 0
     },
      {
       "id": "a3",
@@ -115,7 +179,7 @@
       "gioi": "nu",
       "sinh": 1840,
       "daMat": true,
-      "ngayMat": "12/08/1902",
+      "ngayMat": "16/01 âm lịch",
       "chi": 0,
       "me": "v1"
     },
@@ -126,7 +190,7 @@
       "gioi": "nam",
       "sinh": 1840,
       "daMat": true,
-      "ngayMat": "12/08/1902",
+      "ngayMat": "15/7 âm lịch",
       "chi": 1,
       "me": "v1"
     },
@@ -135,6 +199,10 @@
       "voCua": "b2",
       "ten": "NGUYỄN THỊ NIÊN",
       "gioi": "nu"
+      "sinh": 1880,
+      "daMat": true,
+      "ngayMat": "05/02 âm lịch",
+      "chi": 0
     },
     {
       "id": "c1",
