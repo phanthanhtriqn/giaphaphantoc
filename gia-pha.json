@@ -40,9 +40,33 @@
       "ghiChu": ""
     },
      {
-      "id": "a6",
+      "id": "a7",
       "cha": "r1",
       "ten": "CHA ÔNG HUỲNH",
+      "chuaRo": false,
+      "gioi": "nam",
+      "sinh": 1878,
+      "daMat": true,
+      "ngayMat": "02/03",
+      "chi": 1,
+      "ghiChu": ""
+    },
+    {
+      "id": "b5",
+      "cha": "a7",
+      "ten": "PHAN QUANG VẬY",
+      "chuaRo": false,
+      "gioi": "nam",
+      "sinh": 1878,
+      "daMat": true,
+      "ngayMat": "02/03",
+      "chi": 1,
+      "ghiChu": ""
+    },
+    {
+      "id": "b6",
+      "cha": "a7",
+      "ten": "PHAN ĐỆ",
       "chuaRo": false,
       "gioi": "nam",
       "sinh": 1878,
