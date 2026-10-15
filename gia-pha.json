@@ -559,7 +559,7 @@
       "cha": "d1",
       "ten": "THANH NGUYỆT MINH",
       "gioi": "nu",
-      "chi": 1
+      "chi": 0
     },
     {
       "id": "e3",
@@ -580,7 +580,7 @@
       "cha": "d4",
       "ten": "NGỌC THIÊN HƯƠNG",
       "gioi": "nu",
-      "chi": 1
+      "chi": 0
     }
   ],
   "_canXacNhan": [
