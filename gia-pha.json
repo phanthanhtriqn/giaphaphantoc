@@ -21,6 +21,26 @@
       "chi": 1,
       "ghiChu": "Người xa nhất còn biết trong nhánh này."
     },
+     {
+      "id": "b3",
+      "cha": "a1",
+      "ten": "ĐIỂM",
+      "gioi": "nam",
+      "sinh": 1900,
+      "daMat": true,
+      "ngayMat": "12/08/1902",
+      "chi": 1
+     },
+     {
+      "id": "b4",
+      "cha": "a1",
+      "ten": "HỘI",
+      "gioi": "nam",
+      "sinh": 1903,
+      "daMat": true,
+      "ngayMat": "12/08/1902",
+      "chi": 1
+    },
     {
       "id": "a2",
       "cha": "r0",
