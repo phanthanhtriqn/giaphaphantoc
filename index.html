@@ -260,26 +260,36 @@ function init(data){
   function layout(){
     const list=[];
     const kidsOf=p=>p.kids.length&&open.has(p.id)?p.kids:[];
-    // Cha có từ 2 vợ trở lên và con khác mẹ: tách con thành từng nhóm theo mẹ, nhóm của bà bên trái nằm bên trái, bên phải nằm bên phải
+    // Cha có từ 2 vợ trở lên và con khác mẹ: tách con thành từng nhóm theo mẹ (bà bên trái: con bên trái, bà bên phải: con bên phải)
     const groupsOf=(p,ks)=>{
       if(p.sp.length<2||!ks.length) return [ks];
       const keys=[...new Set(ks.map(k=>origin(p,k.me).dx))].sort((x,y)=>x-y);
       return keys.length<2?[ks]:keys.map(dx=>ks.filter(k=>origin(p,k.me).dx===dx));
     };
-    const arrange=p=>{
-      const items=[]; let w=0;
-      groupsOf(p,kidsOf(p)).forEach(g=>g.forEach((k,i)=>{ const gap=items.length?(i===0?GG:GX):0; w+=gap+subW(k); items.push({k,gap}); }));
-      return {items,width:w};
-    };
+    const rowW=ks=>ks.length?ks.reduce((n,k)=>n+subW(k),0)+GX*(ks.length-1):0;
     const oxOf=p=>groupsOf(p,p.kids).length>1?nodeW(p)/2:origin(p,p.kids.length?p.kids[0].me:null).dx;
-    const subW=p=>{ const ks=kidsOf(p), nw=nodeW(p); if(!ks.length) return nw; const ox=oxOf(p), kw=arrange(p).width; return Math.max(ox,kw/2)+Math.max(nw-ox,kw/2); };
+    // Vị trí tương đối (so với mép trái cụm vợ chồng) của từng con, và khoảng bao [lo,hi] của cả nhánh
+    const kidPos=p=>{
+      const ks=kidsOf(p), nw=nodeW(p), items=[];
+      if(!ks.length) return {items,lo:0,hi:nw};
+      const gs=groupsOf(p,ks); let lo=0, hi=nw, prevEnd=null;
+      gs.forEach(g=>{
+        const gw=rowW(g);
+        let x=origin(p,g[0].me).dx-gw/2;                       // nhóm nằm quanh điểm xuất phát của mẹ
+        if(gs.length>1&&prevEnd!==null) x=Math.max(x,prevEnd+GG);  // các nhóm không chồng lên nhau
+        g.forEach((k,i)=>{ items.push({k,x}); x+=subW(k)+GX; });
+        const end=x-GX; prevEnd=end;
+        lo=Math.min(lo,end-gw); hi=Math.max(hi,end);
+      });
+      return {items,lo,hi};
+    };
+    const subW=p=>{ const kp=kidPos(p); return kp.hi-kp.lo; };
     (function place(p,left){
-      const ks=kidsOf(p), nw=nodeW(p), ox=oxOf(p), ar=arrange(p), kw=ar.width;
-      const needL=ks.length?Math.max(ox,kw/2):0;
-      let cl=left+needL-kw/2;
-      ar.items.forEach(({k,gap})=>{ cl+=gap; place(k,cl); cl+=subW(k); });
-      p.y=p.depth*ROW; p.x=ks.length?left+needL-ox:left;
-      if(ks.length===1&&!p.sp.length) p.x=ks[0].hx;   // người không có vợ/chồng và chỉ có 1 con: nằm thẳng trên đầu thẻ người con
+      const nw=nodeW(p), ox=oxOf(p), kp=kidPos(p);
+      p.x=left-kp.lo;
+      kp.items.forEach(({k,x})=>place(k,p.x+x));
+      p.y=p.depth*ROW;
+      if(kp.items.length===1&&!p.sp.length) p.x=kp.items[0].k.hx;   // người không có vợ/chồng và chỉ có 1 con: nằm thẳng trên đầu thẻ người con
       p.ox=ox; p.cx=p.x+ox;
       p.hl=hlOf(p); p.hx=p.x+p.hl*(CW+SG);
       list.push(p);
