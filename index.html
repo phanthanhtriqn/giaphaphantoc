@@ -130,11 +130,18 @@ function init(data){
   $('#desc').textContent = data.moTa || '';
 
   // ---- Đọc và kiểm tra dữ liệu
+  const strip=k=>String(k).normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/gi,'d').toLowerCase().replace(/[^a-z0-9]/g,'');
+  const ALIAS={id:'id',cha:'cha',ten:'ten',gioi:'gioi',namsinh:'sinh',sinh:'sinh',nammat:'mat',mat:'mat',ngaymat:'ngayMat',
+    song:'song',chet:'chet',damat:'daMat',ngaygioal:'ngaygio',ngaygio:'ngaygio',ngaymatal:'ngaygio',
+    ho:'ho',vo:'vo',vocua:'vo',chong:'chong',chi:'chi',ghichu:'ghiChu',nguon:'nguon',me:'me',chuaro:'chuaRo'};
+  const norm=o=>{ const r={}; for(const k in o){ r[ALIAS[strip(k)]||k]=o[k]; }
+    if(r.gioi!=null){ const g=strip(r.gioi); r.gioi=g==='nu'?'nu':(g==='nam'?'nam':r.gioi); }
+    return r; };
   const errors=[], D=[], S=[], by={};
-  (data.nguoi||[]).forEach((o,i)=>{
+  (data.nguoi||[]).forEach((o0,i)=>{ const o=norm(o0);
     if(!o.id){ errors.push(`Mục thứ ${i+1} thiếu "id".`); return; }
     if(by[o.id]){ errors.push(`Trùng id "${o.id}".`); return; }
-    const isSp = !!o.voCua;   // thẻ vợ/chồng đặt cạnh thẻ của người được ghi trong "voCua"
+    const isSp = !!o.vo;   // thẻ vợ: trường vo là id của người chồng
     const p = Object.assign({}, o, {up:isSp?null:(o.cha||null), unk:!!o.chuaRo, kids:[], sp:[]});
     if(!p.ten){ errors.push(`Người có id "${o.id}" thiếu "ten".`); p.ten='(thiếu tên)'; }
     by[p.id]=p; (isSp?S:D).push(p);
@@ -154,17 +161,23 @@ function init(data){
   const T = D.filter(p=>inTree.has(p.id));
   const SP = [];
   S.forEach(s=>{
-    const h=by[s.voCua];
-    if(!h||h.voCua){ errors.push(`Thẻ "${s.ten}" (id ${s.id}) có voCua là "${s.voCua}" nhưng không có người nào mang id này.`); return; }
+    const h=by[s.vo];
+    if(!h||h.vo){ errors.push(`Thẻ vợ "${s.ten}" (id ${s.id}): trường "vo" phải là id của người chồng, nhưng "${s.vo}" không phải id của ai trong cây.`); return; }
     if(!inTree.has(h.id)){ errors.push(`Thẻ "${s.ten}" (id ${s.id}) gắn với "${h.ten}" nhưng người này không nối được vào cây.`); return; }
     s.husband=h; h.sp.push(s); SP.push(s);
   });
   const off = root.unk ? 0 : 1;
-  D.forEach(p=>{ if(p.me){ const w=by[p.me]; if(!w||w.voCua!==p.up){ errors.push(`"${p.ten}": trường "me" (${p.me}) phải là id của thẻ vợ thuộc cha của người này.`); p.me=null; } } });
-  T.forEach(p=>{ p.gen=p.depth+off; p.full=p.unk?p.ten:(HO?HO+' '+p.ten:p.ten); });
+  D.forEach(p=>{ if(p.me){ const w=by[p.me]; if(!w||w.vo!==p.up){ errors.push(`"${p.ten}": trường "me" (${p.me}) phải là id của thẻ vợ thuộc cha của người này.`); p.me=null; } } });
+  T.forEach(p=>{ p.gen=p.depth+off; p.full=p.unk?p.ten:fullName(p); });
   SP.forEach(s=>{ s.gen=s.husband.gen; s.full=s.ten; });   // thẻ vợ/chồng ghi tên đầy đủ, không thêm họ
   if(errors.length) $('#errs').innerHTML=`<div class="err"><b>Dữ liệu có ${errors.length} chỗ cần sửa:</b><ul>${errors.map(e=>`<li>${esc(e)}</li>`).join('')}</ul></div>`;
 
+  // Họ tên đầy đủ: thêm họ của dòng họ vào trước tên, trừ khi tên để trong ngoặc đơn, hoặc người đó có trường "ho" riêng ("ho": "" nghĩa là ten đã có đủ họ)
+  function fullName(p){
+    if(p.ho!=null) return p.ho?p.ho+' '+p.ten:p.ten;
+    if(/^\s*\(/.test(p.ten)) return p.ten;
+    return HO?HO+' '+p.ten:p.ten;
+  }
   const real = T.filter(p=>!p.unk);
   const path = id=>{ const a=[]; let x=by[id]; while(x&&inTree.has(x.id)){a.push(x); x=x.up?by[x.up]:null;} return a; };
   const maxGen = Math.max(...T.map(p=>p.gen));
@@ -209,7 +222,8 @@ function init(data){
   }
 
   // ---- Chọn góc nhìn (mặc định: người đánh dấu "song" đầu tiên, nếu không thì người cuối cùng)
-  let meId = (real.find(p=>p.song)||real[real.length-1]).id;
+  const nx=data.nguoiXem||data.NguoiXem;   // (tùy chọn) id người làm góc nhìn mặc định
+  let meId = (nx&&by[nx]&&inTree.has(nx)&&!by[nx].unk?nx:(real.find(p=>p.song===true)||real[real.length-1]).id);
   const sel=$('#me');
   sel.innerHTML = real.map(p=>`<option value="${esc(p.id)}">Góc nhìn: ${esc(p.full)}</option>`).join('');
   sel.value=meId; sel.onchange=()=>{ meId=sel.value; render(); };
@@ -264,15 +278,17 @@ function init(data){
   const yearOf=v=>{ const m=String(v||'').match(/\d{4}/); return m?m[0]:''; };
   const deathOf=p=>p.ngayMat||p.mat||'';          // ngày mất (đầy đủ hoặc chỉ năm)
   const gioOf=p=>p.ngaygio||p.ngayGio||p.ngayMatAL||'';   // ngày giỗ (âm lịch)
-  const isDead=p=>!p.song&&(p.daMat||deathOf(p));
-  function life(p){
-    if(p.unk) return '';
-    if(p.song) return 'Còn sống';
-    const my=yearOf(deathOf(p));
-    if(p.sinh&&my) return `${p.sinh} – ${my}`;
-    if(p.sinh) return `Sinh ${p.sinh}`;
-    if(my) return `Mất ${my}`;
-    return p.daMat?'Đã mất':'';
+  // song:true = còn sống, song:false = đã mất; chưa ghi thì chưa rõ (các tên cũ daMat, mat, ngayMat cũng được hiểu là đã mất)
+  const statusOf=p=>(p.song===true||p.chet===false)?'alive':((p.song===false||p.chet===true||p.daMat||p.mat||p.ngayMat)?'dead':'unk');
+  const isAlive=p=>statusOf(p)==='alive';
+  const isDead=p=>statusOf(p)==='dead';
+  function life(p){            // chỉ người đã mất mới hiện năm sinh – năm mất
+    if(p.unk||!isDead(p)) return '';
+    const my=yearOf(deathOf(p)), sn=p.sinh||'';
+    if(sn&&my) return `${sn} – ${my}`;
+    if(sn) return `${sn} – ?`;
+    if(my) return `? – ${my}`;
+    return '';
   }
   const cap=t=>t?t.charAt(0).toUpperCase()+t.slice(1):'';   // viết hoa chữ cái đầu của xưng hô
   function render(){
@@ -297,11 +313,11 @@ function init(data){
     const html=vis.map(p=>{
       const r=rel(meId,p.id), y=life(p);
       const dim=query&&!matches(p)&&!visible(p)?' dim':'', hit=matches(p)?' hit':'';
-      const sub=p.unk?'':`<span class="yr">${esc(y)}${r?`${y?' · ':''}<b>${esc(cap(r))}</b>`:''}</span>`;
+      const sub=p.unk?'':`<span class="yr"><b>${esc(cap(r))}</b>${y?' · '+esc(y):''}</span>`;
       let h=`<button class="card chi${p.chi||0}${p.unk?' unk':''}${p.id===meId?' me':''}${hit}${dim}" data-p="${esc(p.id)}" style="left:${p.hx}px;top:${p.y}px;width:${CW}px;height:${CH}px"><span class="nm">${esc(p.full)}</span>${sub}</button>`;
       p.sp.forEach((s,i)=>{
         const sx=p.x+(i<p.hl?i:i+1)*(CW+SG), sy=life(s), lb=cap(spLabel(s));
-        h+=`<button class="card sp${matchSelf(s)?' hit':''}${dim}" data-p="${esc(s.id)}" style="left:${sx}px;top:${p.y}px;width:${CW}px;height:${CH}px"><span class="nm">${esc(s.full)}</span><span class="yr">${esc(sy)}${sy?' · ':''}<b>${lb}</b></span></button>`;
+        h+=`<button class="card sp${matchSelf(s)?' hit':''}${dim}" data-p="${esc(s.id)}" style="left:${sx}px;top:${p.y}px;width:${CW}px;height:${CH}px"><span class="nm">${esc(s.full)}</span><span class="yr"><b>${lb}</b>${sy?' · '+esc(sy):''}</span></button>`;
       });
       if(p.kids.length){
         const o=open.has(p.id);
@@ -330,15 +346,15 @@ function init(data){
   // ---- Bảng chi tiết
   let lastFocus=null;
   function detail(p,tree){
-    if(p.song) return `<div class="priv">Người còn sống: ngày sinh, nơi ở và liên lạc được ẩn để bảo vệ quyền riêng tư.</div>`;
+    if(isAlive(p)) return `<div class="priv">Người còn sống: ngày sinh, nơi ở và liên lạc được ẩn để bảo vệ quyền riêng tư.</div>`;
     const rows=[];
     if(p.sinh) rows.push(['Năm sinh',p.sinh]);
-    if(isDead(p)) rows.push(['Ngày mất',deathOf(p)||'Chưa rõ']);
+    if(isDead(p)) rows.push([p.ngayMat?'Ngày mất':'Năm mất',deathOf(p)||'Chưa rõ']);
     const gio=gioOf(p);
     if(gio) rows.push(['Ngày giỗ',/âm/i.test(gio)?gio:gio+' (âm lịch)']);
     if(tree){
-      if(p.me&&by[p.me]&&by[p.me].voCua) rows.push(['Mẹ',by[p.me].full]);
-      const names=[...new Set(p.sp.map(x=>x.full).concat(p.vo||[],p.chong||[]).filter(Boolean))];
+      if(p.me&&by[p.me]&&by[p.me].vo) rows.push(['Mẹ',by[p.me].full]);
+      const names=[...new Set(p.sp.map(x=>x.full).concat(p.chong||[]).filter(Boolean))];
       if(names.length){ const lb=p.sp.length?(p.sp[0].gioi==='nam'?'Chồng':'Vợ'):(p.gioi==='nu'?'Chồng':'Vợ'); rows.push([lb,names.join(', ')]); }
     }
     if(p.nguon) rows.push(['Nguồn tin',p.nguon]);
@@ -349,11 +365,11 @@ function init(data){
     const p=by[id]; lastFocus=document.activeElement; let h='';
     if(p.unk){
       h=`<h2 id="sh-title">${esc(p.ten)}</h2><p class="meta">${p.gen===0?'Phía trên cụ xa nhất':'Đời '+p.gen}</p><div class="note-unk">${esc(p.ghiChu||'Chưa có thông tin. Nếu bạn biết thêm, hãy liên hệ người quản trị gia phả.')}</div>`;
-    } else if(p.voCua){
+    } else if(p.vo){
       h=`<h2 id="sh-title">${esc(p.full)}</h2><p class="meta">${p.gioi==='nam'?'Chồng':'Vợ'} của ${esc(p.husband.full)} · Đời ${p.gen}</p>`+(p.husband.id!==meId?`<span class="chip">${esc(cap(spLabel(p)))} của ${esc(by[meId].ten.split(' ').slice(-1)[0])}</span>`:'')+detail(p,false);
     } else {
       const r=rel(meId,id);
-      h=`<h2 id="sh-title">${esc(p.full)}</h2><p class="meta">Đời ${p.gen}${p.chi?' · Chi '+chiName[p.chi]:''}${p.gioi==='nu'?' · Con gái':''}</p>`;
+      h=`<h2 id="sh-title">${esc(p.full)}</h2><p class="meta">Đời ${p.gen}${p.chi?' · Chi '+(chiName[p.chi]||p.chi):''}${p.gioi==='nu'?' · Con gái':''}</p>`;
       if(r&&id!==meId) h+=`<span class="chip">${esc(r.charAt(0).toUpperCase()+r.slice(1))} của ${esc(by[meId].ten.split(' ').slice(-1)[0])}</span>`;
       h+=detail(p,true);
       const kids=p.kids.filter(k=>!k.unk);
