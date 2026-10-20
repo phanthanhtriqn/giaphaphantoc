@@ -221,7 +221,7 @@
       "Chi": 1
     },
     {
-      "Id": "v10",
+      "Id": "v11",
       "Vo": "c7",
       "Ten": "BÁC HAI LỚN",
       "Gioi": "nu",
@@ -230,7 +230,7 @@
       "NgayMat": "02/03"
     },
     {
-      "Id": "v11",
+      "Id": "v12",
       "Vo": "c7",
       "Ten": "BÁC HAI NHỎ",
       "Gioi": "nu",
@@ -245,7 +245,7 @@
       "Namsinh": 1979,
       "Gioi": "nam",
       "Chi": 1,
-      "Me": "v10"
+      "Me": "v11"
     },
     {
       "Id": "d9",
@@ -254,7 +254,7 @@
       "Namsinh": 1981,
       "Gioi": "nu",
       "Chi": 0,
-      "Me": "v10"
+      "Me": "v11"
     },
      {
       "Id": "d10",
@@ -263,7 +263,7 @@
       "Namsinh": 1980,
       "Gioi": "nam",
       "Chi": 1,
-      "Me": "v11"
+      "Me": "v12"
     },
      {
       "Id": "d11",
@@ -272,7 +272,7 @@
       "Namsinh": 1984,
       "Gioi": "nam",
       "Chi": 1,
-      "Me": "v11"
+      "Me": "v12"
     },
     {
       "Id": "d12",
@@ -281,7 +281,7 @@
       "Namsinh": 1986,
       "Gioi": "nam",
       "Chi": 1,
-      "Me": "v11"
+      "Me": "v12"
     },
     {
       "Id": "d13",
@@ -290,7 +290,7 @@
       "Namsinh": 1986,
       "Gioi": "nam",
       "Chi": 1,
-      "Me": "v11"
+      "Me": "v12"
     },
      {
       "Id": "d14",
@@ -298,8 +298,9 @@
       "Ten": "THỊ THẢO",
       "Namsinh": 1991,
       "Gioi": "nu",
+      "chong": "NGUYỄN VĂN D", 
       "Chi": 0,
-      "Me": "v11"
+      "Me": "v12"
     },
     {
       "Id": "c8",
@@ -321,7 +322,7 @@
       "Chi": 1
     },
     {
-      "Id": "v12",
+      "Id": "v13",
       "Vo": "c9",
       "Ten": "VỢ BÁC ĐỨC",
       "Gioi": "nu",
@@ -331,28 +332,28 @@
     },
     {
       "Id": "d15",
-      "Cha": "c7",
+      "Cha": "c9",
       "Ten": "THỊ MỸ",
       "Namsinh": 1987,
       "Gioi": "nu",
       "chong": "TRẦN VĂN ÂU",
       "Chi": 0,
       "Song": true,
-      "Me": "v12"
+      "Me": "v13"
     },
     {
       "Id": "d16",
-      "Cha": "c7",
+      "Cha": "c9",
       "Ten": "TẤN VIỆT",
       "Namsinh": 1990,
       "Gioi": "nam",
       "Chi": 1,
       "Song": true,
-      "Me": "v12"
+      "Me": "v13"
     },
     {
-      "Id": "v13",
-      "Vo": "c7",
+      "Id": "v14",
+      "Vo": "d16",
       "Ten": "VỢ ANH VIỆT",
       "Gioi": "nu",
       "Namsinh": 1996,
@@ -361,14 +362,14 @@
     },
      {
       "Id": "d17",
-      "Cha": "c7",
+      "Cha": "c9",
       "Ten": "THỊ LẺO",
       "Namsinh": 1994,
       "Gioi": "nu",
       "chong": "TRẦN VĂN C",
       "Chi": 0,
       "Song": true,
-      "Me": "v12"
+      "Me": "v13"
     },
     {
       "Id": "b4",
