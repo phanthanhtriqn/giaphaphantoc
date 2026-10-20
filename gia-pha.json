@@ -193,12 +193,24 @@
     {
       "Id": "a1",
       "Cha": "r2",
-      "Ten": "KIỂM",
+      "Ho":"",
+      "Ten": "(ÔNG KIỂM)",
       "Gioi": "nam",
       "Namsinh": 1878,
       "Song": false,
       "NgayMat": "02/03",
       "Chi": 1
+    },
+    {
+      "Id": "b5",
+      "Cha": "a1",
+      "Ten": "THỊ KIỂM",
+      "Gioi": "nu",
+      "Namsinh": 1910,
+      "Song": false,
+      "Nammat": 1902,
+      "NgayMat": "12/08/1902",
+      "Chi": 0
     },
     {
       "Id": "b3",
