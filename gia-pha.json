@@ -254,7 +254,7 @@
       "Id": "c10",
       "Cha": "b4",
       "Ten": "LÂM ĐÌNH NGHỊ",
-      "Ho": "",
+      "Ho": "PHAN",
       "Gioi": "nam",
       "Namsinh": 1900,
       "Song": true,
@@ -264,7 +264,7 @@
       "Id": "c11",
       "Cha": "b4",
       "Ten": "LÂM ĐÌNH THU",
-      "Ho": "",
+      "Ho": "PHAN",
       "Gioi": "nam",
       "Namsinh": 1900,
       "Song": true,
@@ -274,7 +274,7 @@
       "Id": "c12",
       "Cha": "b4",
       "Ten": "LÂM THỊ XUÂN",
-      "Ho": "",
+      "Ho": "PHAN",
       "Gioi": "nu",
       "Namsinh": 1900,
       "Song": true,
@@ -290,7 +290,7 @@
       "Song": false,
       "NgayMat": "02/03",
       "Chi": 1,
-      "Ghichu": "Người xa nhất còn biết trong nhánh này."
+      "Ghichu": ""
     },
     {
       "Id": "v1",
