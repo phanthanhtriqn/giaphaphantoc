@@ -256,17 +256,28 @@ function init(data){
       return {dx:m*cw+CW/2,gap:false}; }
     return {dx:nodeW(p)/2,gap:(n+1)%2===0};
   }
+  const GG=GX*3;   // khoảng cách giữa các nhóm con khác mẹ
   function layout(){
     const list=[];
     const kidsOf=p=>p.kids.length&&open.has(p.id)?p.kids:[];
-    const kidsW=ks=>ks.length?ks.reduce((n,k)=>n+subW(k),0)+GX*(ks.length-1):0;
-    const oxOf=p=>origin(p,p.kids.length?p.kids[0].me:null).dx;
-    const subW=p=>{ const ks=kidsOf(p), nw=nodeW(p); if(!ks.length) return nw; const ox=oxOf(p), kw=kidsW(ks); return Math.max(ox,kw/2)+Math.max(nw-ox,kw/2); };
+    // Cha có từ 2 vợ trở lên và con khác mẹ: tách con thành từng nhóm theo mẹ, nhóm của bà bên trái nằm bên trái, bên phải nằm bên phải
+    const groupsOf=(p,ks)=>{
+      if(p.sp.length<2||!ks.length) return [ks];
+      const keys=[...new Set(ks.map(k=>origin(p,k.me).dx))].sort((x,y)=>x-y);
+      return keys.length<2?[ks]:keys.map(dx=>ks.filter(k=>origin(p,k.me).dx===dx));
+    };
+    const arrange=p=>{
+      const items=[]; let w=0;
+      groupsOf(p,kidsOf(p)).forEach(g=>g.forEach((k,i)=>{ const gap=items.length?(i===0?GG:GX):0; w+=gap+subW(k); items.push({k,gap}); }));
+      return {items,width:w};
+    };
+    const oxOf=p=>groupsOf(p,p.kids).length>1?nodeW(p)/2:origin(p,p.kids.length?p.kids[0].me:null).dx;
+    const subW=p=>{ const ks=kidsOf(p), nw=nodeW(p); if(!ks.length) return nw; const ox=oxOf(p), kw=arrange(p).width; return Math.max(ox,kw/2)+Math.max(nw-ox,kw/2); };
     (function place(p,left){
-      const ks=kidsOf(p), nw=nodeW(p), ox=oxOf(p), kw=kidsW(ks);
+      const ks=kidsOf(p), nw=nodeW(p), ox=oxOf(p), ar=arrange(p), kw=ar.width;
       const needL=ks.length?Math.max(ox,kw/2):0;
       let cl=left+needL-kw/2;
-      ks.forEach(k=>{ place(k,cl); cl+=subW(k)+GX; });
+      ar.items.forEach(({k,gap})=>{ cl+=gap; place(k,cl); cl+=subW(k); });
       p.y=p.depth*ROW; p.x=ks.length?left+needL-ox:left;
       if(ks.length===1&&!p.sp.length) p.x=ks[0].hx;   // người không có vợ/chồng và chỉ có 1 con: nằm thẳng trên đầu thẻ người con
       p.ox=ox; p.cx=p.x+ox;
@@ -275,6 +286,7 @@ function init(data){
     })(root,0);
     return {list,width:subW(root)};
   }
+
   const yearOf=v=>{ const m=String(v||'').match(/\d{4}/); return m?m[0]:''; };
   const deathOf=p=>p.ngayMat||p.mat||'';          // ngày mất (đầy đủ hoặc chỉ năm)
   const gioOf=p=>p.ngaygio||p.ngayGio||p.ngayMatAL||'';   // ngày giỗ (âm lịch)
