@@ -257,40 +257,33 @@ function init(data){
     return {dx:nodeW(p)/2,gap:(n+1)%2===0};
   }
   const GG=GX*3;   // khoảng cách giữa các nhóm con khác mẹ
+  // Cha có từ 2 vợ trở lên và con khác mẹ: chia con thành nhóm theo mẹ (con bà bên trái xếp trước, con bà bên phải xếp sau)
+  const groupsOf=(p,ks)=>{
+    if(p.sp.length<2||!ks.length) return [ks];
+    const keys=[...new Set(ks.map(k=>origin(p,k.me).dx))].sort((x,y)=>x-y);
+    return keys.length<2?[ks]:keys.map(dx=>ks.filter(k=>origin(p,k.me).dx===dx));
+  };
   function layout(){
     const list=[];
     const kidsOf=p=>p.kids.length&&open.has(p.id)?p.kids:[];
-    // Cha có từ 2 vợ trở lên và con khác mẹ: tách con thành từng nhóm theo mẹ (bà bên trái: con bên trái, bà bên phải: con bên phải)
-    const groupsOf=(p,ks)=>{
-      if(p.sp.length<2||!ks.length) return [ks];
-      const keys=[...new Set(ks.map(k=>origin(p,k.me).dx))].sort((x,y)=>x-y);
-      return keys.length<2?[ks]:keys.map(dx=>ks.filter(k=>origin(p,k.me).dx===dx));
-    };
     const rowW=ks=>ks.length?ks.reduce((n,k)=>n+subW(k),0)+GX*(ks.length-1):0;
-    const oxOf=p=>groupsOf(p,p.kids).length>1?nodeW(p)/2:origin(p,p.kids.length?p.kids[0].me:null).dx;
-    // Vị trí tương đối (so với mép trái cụm vợ chồng) của từng con, và khoảng bao [lo,hi] của cả nhánh
+    // Vị trí tương đối (so với mép trái cụm vợ chồng) của từng con: toàn bộ các con được canh giữa theo trục của cụm vợ chồng
     const kidPos=p=>{
       const ks=kidsOf(p), nw=nodeW(p), items=[];
       if(!ks.length) return {items,lo:0,hi:nw};
-      const gs=groupsOf(p,ks); let lo=0, hi=nw, prevEnd=null;
-      gs.forEach(g=>{
-        const gw=rowW(g);
-        let x=origin(p,g[0].me).dx-gw/2;                       // nhóm nằm quanh điểm xuất phát của mẹ
-        if(gs.length>1&&prevEnd!==null) x=Math.max(x,prevEnd+GG);  // các nhóm không chồng lên nhau
-        g.forEach((k,i)=>{ items.push({k,x}); x+=subW(k)+GX; });
-        const end=x-GX; prevEnd=end;
-        lo=Math.min(lo,end-gw); hi=Math.max(hi,end);
-      });
-      return {items,lo,hi};
+      const gs=groupsOf(p,ks), total=gs.reduce((n,g,i)=>n+rowW(g)+(i?GG:0),0);
+      let x=nw/2-total/2; const start=x;
+      gs.forEach((g,gi)=>{ if(gi) x+=GG; g.forEach((k,i)=>{ if(i) x+=GX; items.push({k,x}); x+=subW(k); }); });
+      return {items,lo:Math.min(0,start),hi:Math.max(nw,x)};
     };
     const subW=p=>{ const kp=kidPos(p); return kp.hi-kp.lo; };
     (function place(p,left){
-      const nw=nodeW(p), ox=oxOf(p), kp=kidPos(p);
+      const nw=nodeW(p), kp=kidPos(p);
       p.x=left-kp.lo;
       kp.items.forEach(({k,x})=>place(k,p.x+x));
       p.y=p.depth*ROW;
       if(kp.items.length===1&&!p.sp.length) p.x=kp.items[0].k.hx;   // người không có vợ/chồng và chỉ có 1 con: nằm thẳng trên đầu thẻ người con
-      p.ox=ox; p.cx=p.x+ox;
+      p.ox=nw/2; p.cx=p.x+p.ox;
       p.hl=hlOf(p); p.hx=p.x+p.hl*(CW+SG);
       list.push(p);
     })(root,0);
@@ -324,10 +317,17 @@ function init(data){
     const cv=$('#canvas'); cv.style.width=W+'px'; cv.style.height=H+'px'; cv.style.transform=`scale(${zoom})`; cv.style.top='12px'; cv.style.left='12px';
 
     let d='';
+    const lvl=new Map();   // tầng của thanh ngang (chỉ dùng khi cha có con với nhiều bà)
+    vis.forEach(q=>{
+      if(!open.has(q.id)||!q.kids.length) return;
+      const gs=groupsOf(q,q.kids); if(gs.length<2) return;
+      const gi=gs.map(g=>{ const ox=q.x+origin(q,g[0].me).dx, xs=g.map(k=>k.hx+CW/2).concat(ox); return {g,ox,a:Math.min(...xs),b:Math.max(...xs)}; });
+      gi.forEach((A,i)=>{ A.lv=gi.filter((B,j)=>j!==i&&B.ox>A.a&&B.ox<A.b).length; A.g.forEach(k=>lvl.set(k.id,A.lv)); });
+    });
     vis.forEach(p=>{
       for(let i=0;i<p.sp.length;i++){ const lx=p.x+i*(CW+SG)+CW, ly=p.y+CH/2; d+=`<path class="lk" d="M${lx} ${ly} H${lx+SG}"/>`; }   // nối chồng – vợ
       if(p.up&&open.has(p.up)){ const q=by[p.up], o=origin(q,p.me);
-        const x1=q.x+o.dx, y1=o.gap?q.y+CH/2:q.y+CH, x2=p.hx+CW/2, y2=p.y, my=q.y+CH+(y2-q.y-CH)/2;
+        const x1=q.x+o.dx, y1=o.gap?q.y+CH/2:q.y+CH, x2=p.hx+CW/2, y2=p.y, my=q.y+CH+GY*(lvl.has(p.id)?[0.35,0.7,0.85][Math.min(lvl.get(p.id),2)]:0.5);
         d+=`<path d="M${x1} ${y1} V${my} H${x2} V${y2}"/>`; }
     });
     const svg=$('#svg'); svg.setAttribute('width',W); svg.setAttribute('height',H); svg.innerHTML=d;
